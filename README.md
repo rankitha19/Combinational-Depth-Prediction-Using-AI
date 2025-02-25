@@ -133,14 +133,11 @@ Predicted combinational depth: 3
 
 ---
 
-## **11. Future Work**
-- Explore **Graph Neural Networks (GNNs)** for RTL representation.
-- Incorporate **timing reports from synthesis tools** for better predictions.
-- Reduce **prediction run-time** while improving accuracy.
+
 
 ---
 
-## **12. References**
+## **11. References**
 - [Hugging Face Transformers](https://huggingface.co/transformers/)
 - [CodeBERT: A Pretrained Model for Programming Languages](https://arxiv.org/abs/2002.08155)
 - [MetRex Dataset](https://huggingface.co/datasets/scale-lab/MetRex)
