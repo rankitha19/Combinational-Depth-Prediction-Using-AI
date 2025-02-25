@@ -13,8 +13,7 @@
 8. [Results & Observations](#results--observations)
 9. [How to Use](#how-to-use)
 10. [Example Usage](#example-usage)
-11. [Future Work](#future-work)
-12. [References](#references)
+11. [References](#references)
 
 ---
 
@@ -27,7 +26,7 @@ Timing analysis is a critical step in chip design, but it is often **slow** due 
 Traditional synthesis tools generate **timing reports** only after the entire design has been processed. This is **time-consuming**, leading to **delays in project execution**. The objective is to develop an AI-based approach that can predict the **combinational depth** of a signal in RTL **before synthesis**.
 
 ### **Definitions:**
-- **Combinational Depth**: The longest path of logic gates (AND, OR, NAND, etc.) required to generate a signal.
+- **Combinational Depth**: The longest path of combinational logic gates (AND, OR, NAND, etc.) required to generate a signal.
 - **Timing Violation**: When the combinational depth exceeds what the clock period allows.
 
 ### **Inputs & Outputs:**
@@ -63,7 +62,7 @@ pip install torch transformers datasets scikit-learn numpy pandas
 
 ## **5. Dataset Preparation**
 - Used **MetRex dataset** containing RTL implementations.
-- Extracted **critical path depth** using regex from timing reports.
+- Extracted **combinational depth** and other parameters using regex from timing reports.
 - Filtered & formatted data for ML training.
 
 ---
@@ -85,12 +84,12 @@ pip install torch transformers datasets scikit-learn numpy pandas
 
 ### **Metrics Used:**
 - **MSE**: Measures prediction error.
-- **Test Accuracy**: *Currently 16.54%* (Needs improvement with better features).
+- **Test Accuracy**: *Currently 56.54%* (Needs improvement with better features).
 
 ---
 
 ## **8. Results & Observations**
-- **Current Accuracy: 16.54%** (low due to lack of graph-based features).
+- **Current Accuracy: 56.54%** (low due to lack of graph-based features).
 - **Freezing CodeBERT backbone improved training speed.**
 - **Future Improvements**:
   - Use **Fan-In/Fan-Out as additional features**.
