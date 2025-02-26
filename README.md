@@ -120,7 +120,7 @@ pip install torch transformers datasets scikit-learn numpy pandas
 ---
 
   ## *8. Results & Observations*
-- *Current Accuracy: 36.54%* (low due to lack of graph-based features).
+- *Current Accuracy: 36.54%* 
 - *Freezing CodeBERT backbone improved training speed.*
 - *Future Improvements*:
   - Use *Fan-In/Fan-Out as additional features*.
