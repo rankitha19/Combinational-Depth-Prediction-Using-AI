@@ -37,11 +37,42 @@ Traditional synthesis tools generate **timing reports** only after the entire de
 
 ## **3. Solution Approach**
 ### **Steps Involved:**
-1. **Dataset Creation**: Extract combinational depth from RTL synthesis reports.
-2. **Feature Engineering**: Identify key RTL parameters influencing depth (Fan-In, Fan-Out, gate types).
-3. **Model Selection**: Fine-tune **CodeBERT** (`microsoft/codebert-base`) for regression.
-4. **Training**: Use supervised learning to predict combinational depth.
-5. **Evaluation**: Compare AI-predicted depth with actual synthesis reports.
+*Dataset Selection*
+   - Used an open-source dataset (MetRex) containing RTL designs and their respective timing reports.
+   - The dataset already includes critical path information, allowing us to extract combinational depth directly.
+
+*Feature Extraction*
+   - Applied regex-based parsing to extract the number of gates in the critical path from the delay column.
+   - The extracted count includes all elements in the critical path. We assume that all elements are combinational, as the number of sequential elements is negligible. Future improvements can refine this by distinguishing between combinational and sequential elements.
+   - Filtered out samples where depth extraction was not possible.
+   
+*Data Formatting*
+   - Reformatted the dataset to a supervised learning format.
+   - Created input-output pairs where the RTL code serves as input, and the extracted combinational depth is the target label.
+
+*Model Selection*
+   - Chose CodeBERT (microsoft/codebert-base) as the pretrained model.
+   - Pretrained models like CodeBERT have been trained on large-scale GitHub repositories, making them well-suited for understanding RTL code.
+   - Fine-tuning an existing model is computationally efficient compared to training from scratch.
+   
+*Data Preprocessing*
+   - Tokenized RTL code using CodeBERT’s tokenizer.
+   - Converted target depth values to float for regression.
+
+*Model Training*
+   - Used supervised learning with a regression-based approach.
+   - Fine-tuned only the classification head while freezing other layers to reduce training time.
+   - Used MSE loss as the evaluation metric.
+  
+     
+*Evaluation*
+   - Split dataset into training (90%) and testing (10%).
+   - Computed accuracy by comparing predicted depth with true depth.
+   - Test accuracy achieved: 36.54% (indicating room for improvement with better feature engineering).
+
+*Prediction and Output Generation*
+   - Generated predictions on the test set.
+   - Saved outputs as CSV files containing RTL, true labels, and predicted values.
 
 ---
 
@@ -84,16 +115,25 @@ pip install torch transformers datasets scikit-learn numpy pandas
 
 ### **Metrics Used:**
 - **MSE**: Measures prediction error.
-- **Test Accuracy**: *Currently 56.54%* (Needs improvement with better features).
+- **Test Accuracy**: *Currently 36.54%* (Needs improvement with better features).
 
 ---
 
-## **8. Results & Observations**
-- **Current Accuracy: 56.54%** (low due to lack of graph-based features).
-- **Freezing CodeBERT backbone improved training speed.**
-- **Future Improvements**:
-  - Use **Fan-In/Fan-Out as additional features**.
-  - Increase **dataset size**.
+  ## *8. Results & Observations*
+- *Current Accuracy: 56.54%* (low due to lack of graph-based features).
+- *Freezing CodeBERT backbone improved training speed.*
+- *Future Improvements*:
+  - Use *Fan-In/Fan-Out as additional features*.
+  - Increase *dataset size*.
+  - Accuracy can be further improved by training on a larger dataset.
+  - We have used only *3 epochs* for training, which can be increased.
+  - A *larger model like CodeLlama-7B* can yield better accuracy.
+  - Full fine-tuning (instead of parameter-efficient tuning) can further enhance accuracy.
+  
+### *Why We Didn't Use Full Fine-Tuning?*
+- *RAM and GPU limitations* restricted the ability to fine-tune all layers.
+- Training other layers would have taken significantly more time due to *computational constraints*.
+- Instead, we opted for *parameter-efficient fine-tuning*, training only the last layer to optimize available resources.
 
 ---
 
@@ -141,3 +181,5 @@ Predicted combinational depth: 3
 - [Hugging Face Transformers](https://huggingface.co/transformers/)
 - [CodeBERT: A Pretrained Model for Programming Languages](https://arxiv.org/abs/2002.08155)
 - [MetRex Dataset](https://huggingface.co/datasets/scale-lab/MetRex)
+
+  This project provides a foundation for AI-driven timing analysis in RTL design. Future work can improve accuracy by incorporating additional RTL features like fan-in, fan-out, and synthesis optimizations
