@@ -182,7 +182,7 @@ Predicted combinational depth: 3
 - [CodeBERT: A Pretrained Model for Programming Languages](https://arxiv.org/abs/2002.08155)
 - [MetRex Dataset](https://huggingface.co/datasets/scale-lab/MetRex)
 
-#The cleaned train data is available for download from [Google Drive](https://drive.google.com/file/d/17GrhDF3yk_567xrWQgdTOFDLVvOL0pgU/view?usp=sharing).  
+The cleaned train data is available for download from [Google Drive](https://drive.google.com/file/d/17GrhDF3yk_567xrWQgdTOFDLVvOL0pgU/view?usp=sharing).  
 (Note: The file is too large to be added to Git.)
   
   This project provides a foundation for AI-driven timing analysis in RTL design. Future work can improve accuracy by incorporating additional RTL features like fan-in, fan-out, and synthesis optimizations
